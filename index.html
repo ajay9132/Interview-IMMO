@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+    <style type="text/tailwindcss">
+      @layer utilities {
+        p {
+          @apply my-2;
+        }
+        h1 {
+          @apply text-3xl font-bold;
+        }
+        h2 {
+          @apply text-2xl font-bold;
+        }
+        h3 {
+          @apply text-xl font-bold;
+        }
+        table {
+          @apply table-auto border border-slate-400 my-4;
+        }
+        td,
+        th {
+          @apply p-2 border border-slate-300;
+        }
+        code {
+          @apply bg-slate-100 px-1 py-1;
+        }
+      }
+    </style>
+  </head>
+  <body class="p-4">
+    <h1 id="software-engineer-development-challenge">
+      Software Engineer development challenge
+    </h1>
+    <p>
+      In this exercise, you're given a few functions simulating API endpoints.
+    </p>
+    <p>
+      Your task is to use them to write a series of functions, each of which
+      should retrieve a list of properties that meet the specified requirements.
+    </p>
+    <p>
+      There are three stages to the challenge, for which the requirements are
+      given in <code>REQUIREMENTS.md</code>. Each stage has some associated
+      tests (<code>stage{1-3}.test.js</code>) that should pass before you move
+      on to the next stage.
+    </p>
+    <p>
+      Please write the most performant but readable code you can
+      <strong>(assuming the code could be deployed to production)</strong> in
+      <code>index.js</code> without modifying any of the API functions in
+      <code>src/api.js</code> or the signature of any of the functions in
+      <code>index.js`</code>. (You are allowed to add your own helper functions
+      in <code>index.js</code> though.)
+    </p>
+    <hr />
+    <h2 id="-api-js-" class="font-mono">api.js</h2>
+    <p>
+      You have been provided with a mock <code>api</code> that provides three
+      functions for use - pretend these are your interface to a RESTful API.
+    </p>
+    <h3 id="-getallregions-" class="font-mono">
+      getAllRegions
+    </h3>
+    <p>
+      Returns a promise that returns an object containing an array of region
+      objects, with each region containing the following properties:
+    </p>
+    <table>
+      <thead class="bg-slate-100">
+        <tr>
+          <th>Property</th>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>name</code></td>
+          <td>string</td>
+          <td>The region name</td>
+        </tr>
+        <tr>
+          <td><code>parent</code></td>
+          <td>string</td>
+          <td>
+            The name of the region&#39;s parent region (if no parent, this will
+            be an empty string)
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <h3 id="-getpropertiesbyregion-" class="font-mono">
+      getPropertiesByRegion
+    </h3>
+    <p>
+      Returns a promise that returns an object containing an array of property
+      objects, representing all of the properties that exist in the regions
+      provided.
+    </p>
+    <h4 id="params">Params</h4>
+    <table>
+      <thead class="bg-slate-100">
+        <tr>
+          <th>Property</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Example</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>regions</td>
+          <td>string</td>
+          <td>
+            CSV of regions to obtain properties for
+          </td>
+          <td>
+            <code>&quot;london,bermuda,glasgow&quot;</code>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <h4 id="response">Response</h4>
+    <table>
+      <thead class="bg-slate-100">
+        <tr>
+          <th>Property</th>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>region</code></td>
+          <td>string</td>
+          <td>
+            The name of the region this property belongs in
+          </td>
+        </tr>
+        <tr>
+          <td><code>address</code></td>
+          <td>string</td>
+          <td>
+            The full address for this property
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <h3 id="-getinvestableregions-" class="font-mono">
+      getInvestableRegions
+    </h3>
+    <p>
+      Returns a promise that returns an object containing an array of strings,
+      representing the regions that IMMO is currently investing in.
+    </p>
+  </body>
+</html>
