@@ -18,6 +18,7 @@ async function getChildProperties(top_level_region) {
 }
 
 const validateParent = (topLevelRegions, currentRegion, _, regions) => {
+  if (topLevelRegions.indexOf(currentRegion.name) != -1) return true;
   let parent = currentRegion.parent;
   while (parent && parent != "") {
     if (topLevelRegions.indexOf(parent) != -1) return true;
@@ -44,10 +45,6 @@ async function getAllProperties(top_level_region) {
     regions.map((r) => r.name).join(",")
   );
 
-  // console.log(check);
-
-  // console.log(response.regions.filter(validateParent));
-
   return result;
 }
 
@@ -63,12 +60,10 @@ async function getInvestableProperties(top_level_region) {
   const { properties } = await getAllProperties(top_level_region);
   const response = await getAllRegions();
   const investable = await getInvestableRegions();
-  const investableRegions = [
-    ...investable.regions,
-    ...response.regions
-      .filter(validateParent.bind(null, investable.regions))
-      .map((r) => r.name),
-  ];
+  const investableRegions = response.regions
+    .filter(validateParent.bind(null, investable.regions))
+    .map((r) => r.name);
+
   return {
     properties: properties.filter(
       (p) => investableRegions.indexOf(p.region) != -1
