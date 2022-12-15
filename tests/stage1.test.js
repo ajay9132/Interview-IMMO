@@ -5,7 +5,7 @@ it("should return a single property for parent 'immo capital'", async () => {
   expect(properties).toHaveLength(1);
   expect(properties).toContainEqual({
     address: "immo uk",
-    region: "immo capital"
+    region: "immo capital",
   });
 });
 

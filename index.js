@@ -1,7 +1,7 @@
 import {
   getAllRegions,
   getPropertiesByRegion,
-  getInvestableRegions
+  getInvestableRegions,
 } from "./src/api";
 
 /**
@@ -17,8 +17,12 @@ async function getChildProperties(top_level_region) {
   return response;
 }
 
-const validateParent = (region) => {
-  return region.parent.includes("immo global");
+const validateParent = (topLevelRegions, currentRegion, _, regions) => {
+  let parent = currentRegion.parent;
+  while (parent && parent != "") {
+    if (topLevelRegions.indexOf(parent) != -1) return true;
+    parent = regions.find((r) => r.name == parent)?.parent;
+  }
 };
 
 /**
@@ -31,14 +35,14 @@ const validateParent = (region) => {
  */
 async function getAllProperties(top_level_region) {
   const response = await getAllRegions();
-  // console.log(`response values:`, response.regions);
-  const regions = response.regions.filter(validateParent);
-  const result = [];
-  for (let i = 0; i < regions.length; i++) {
-    const properties = await getPropertiesByRegion(regions[i].name);
-    result.push(properties);
-  }
-  console.log("test", result);
+
+  const regions = response.regions.filter(
+    validateParent.bind(null, [top_level_region])
+  );
+
+  const result = await getPropertiesByRegion(
+    regions.map((r) => r.name).join(",")
+  );
 
   // console.log(check);
 
@@ -56,15 +60,19 @@ async function getAllProperties(top_level_region) {
  * @returns {Promise<{properties: Property[]}>}
  */
 async function getInvestableProperties(top_level_region) {
+  const { properties } = await getAllProperties(top_level_region);
+  const response = await getAllRegions();
+  const investable = await getInvestableRegions();
+  const investableRegions = [
+    ...investable.regions,
+    ...response.regions
+      .filter(validateParent.bind(null, investable.regions))
+      .map((r) => r.name),
+  ];
   return {
-    properties: [
-      {
-        // some property
-      },
-      {
-        // another property
-      }
-    ]
+    properties: properties.filter(
+      (p) => investableRegions.indexOf(p.region) != -1
+    ),
   };
 }
 
